@@ -57,35 +57,53 @@ const renderCountry = function (data, className = '') {
   countriesContainer.style.opacity = 1;
 };
 
-const getCountryAndNeighbour = function (country) {
-  //AJAX call country 1
-  const request = new XMLHttpRequest();
-  request.open('GET', `https://restcountries.com/v3.1/name/${country}`);
-  request.send();
-  request.addEventListener('load', function () {
-    const [data] = JSON.parse(this.responseText);
-    console.log(data);
+// const getCountryAndNeighbour = function (country) {
+//   //AJAX call country 1
+//   const request = new XMLHttpRequest();
+//   request.open('GET', `https://restcountries.com/v3.1/name/${country}`);
+//   request.send();
+//   request.addEventListener('load', function () {
+//     const [data] = JSON.parse(this.responseText);
+//     console.log(data);
 
-    //Render country 1
-    renderCountry(data);
+//     //Render country 1
+//     renderCountry(data);
 
-    //render neighbour
-    const [neighbour] = data.borders;
+//     //render neighbour
+//     const [neighbour] = data.borders;
 
-    if (!neighbour) return;
+//     if (!neighbour) return;
 
-    //AJAX call country 2
-    const nRequest = new XMLHttpRequest();
-    nRequest.open('GET', `https://restcountries.com/v3.1/alpha/${neighbour}`);
-    nRequest.send();
-    nRequest.addEventListener('load', function () {
-      const [nData] = JSON.parse(this.responseText);
-      console.log(nData);
+//     //AJAX call country 2
+//     const nRequest = new XMLHttpRequest();
+//     nRequest.open('GET', `https://restcountries.com/v3.1/alpha/${neighbour}`);
+//     nRequest.send();
+//     nRequest.addEventListener('load', function () {
+//       const [nData] = JSON.parse(this.responseText);
+//       console.log(nData);
 
-      renderCountry(nData, 'neighbour');
+//       renderCountry(nData, 'neighbour');
+//     });
+//   });
+// };
+
+// const inp1 = prompt('Enter the country');
+// getCountryAndNeighbour(inp1.toLowerCase());
+
+// const request = fetch('https://restcountries.com/v3.1/name/india');
+// console.log(request);
+
+const getCountryData = function (country) {
+  fetch(`https://restcountries.com/v3.1/name/${country}`)
+    .then(function (response) {
+      console.log(response);
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+      renderCountry(data[0]);
     });
-  });
 };
 
 const inp1 = prompt('Enter the country');
-getCountryAndNeighbour(inp1.toLowerCase());
+getCountryData(inp1.toLowerCase());
